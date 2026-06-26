@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untukmu Sayang</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #050505;
+            color: white;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* =========================================
+           SCENE 1: GREETINGS (HALAMAN AWAL)
+           ========================================= */
+        #scene-intro {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-in-out;
+            z-index: 100;
+        }
+
+        .greetings h1 {
+            font-size: 3rem;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            gap: 10px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .greetings .description {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            color: #dcdcdc;
+            text-align: center;
+        }
+
+        .greetings .button button {
+            background: transparent;
+            border: 1px solid white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .greetings .button button a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .greetings .button button:hover {
+            background: white;
+            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+
+        .greetings .button button:hover a {
+            color: #050505;
+            font-weight: 600;
+        }
+
+        /* =========================================
+           SCENE 2: NIGHT SKY & FLOWER ANIMATION
+           ========================================= */
+        #scene-flower {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020202;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        /* Bintang-Bintang */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="1" fill="white" opacity="0.8"/><circle cx="200" cy="80" r="1.5" fill="white" opacity="0.6"/><circle cx="100" cy="200" r="1" fill="white" opacity="0.9"/><circle cx="280" cy="40" r="1.2" fill="white" opacity="0.5"/><circle cx="150" cy="150" r="0.8" fill="white" opacity="0.7"/></svg>') repeat;
+            animation: twinkle 4s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        /* Posisi Keseluruhan Bunga */
+        .flower-container {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .flower {
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: bottom center;
+        }
+
+        .flower--1 { left: 40%; transform: scale(0.8) rotate(-15deg); }
+        .flower--2 { left: 50%; transform: scale(1) translateX(-50%); z-index: 10; }
+        .flower--3 { left: 60%; transform: scale(0.85) rotate(15deg); }
+
+        /* Tangkai (Stem) */
+        .stem {
+            width: 6px;
+            height: 350px;
+            background: linear-gradient(to top, #0f3b25, #35b364);
+            border-radius: 4px;
+            position: relative;
+            transform-origin: bottom;
+            animation: growStem 2.5s ease-out forwards;
+            box-shadow: 0 0 10px rgba(53, 179, 100, 0.3);
+        }
+        .flower--1 .stem { height: 280px; animation-delay: 0.2s; }
+        .flower--3 .stem { height: 300px; animation-delay: 0.4s; }
+
+        /* Daun (Leaves) */
+        .leaf {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            background: #35b364;
+            border-radius: 50% 0 50% 0;
+            bottom: 120px;
+            opacity: 0;
+            box-shadow: 0 0 15px rgba(53, 179, 100, 0.4);
+            animation: growLeaf 1.5s ease-out forwards;
+        }
+        .leaf--left {
+            left: -45px;
+            transform: rotate(-30deg);
+            animation-delay: 1.5s;
+        }
+        .leaf--right {
+            right: -45px;
+            bottom: 180px;
+            border-radius: 0 50% 0 50%;
+            transform: rotate(30deg);
+            animation-delay: 1.8s;
+        }
+
+        /* Bunga & Kelopak */
+        .bloom {
+            position: absolute;
+            top: -30px;
+            width: 80px;
+            height: 80px;
+            opacity: 0;
+            animation: bloomFade 1.5s ease-out forwards;
+        }
+        .flower--1 .bloom { animation-delay: 2.5s; }
+        .flower--2 .bloom { animation-delay: 2.2s; }
+        .flower--3 .bloom { animation-delay: 2.7s; }
+
+        .petal {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: radial-gradient(circle, #bde0ff, #509ce4);
+            border-radius: 50%;
+            top: 15px;
+            left: 25px;
+            transform-origin: bottom center;
+            box-shadow: 0 0 20px rgba(173, 216, 230, 0.7);
+        }
+        .petal--1 { transform: rotate(0deg) translateY(-15px); }
+        .petal--2 { transform: rotate(72deg) translateY(-15px); }
+        .petal--3 { transform: rotate(144deg) translateY(-15px); }
+        .petal--4 { transform: rotate(216deg) translateY(-15px); }
+        .petal--5 { transform: rotate(288deg) translateY(-15px); }
+
+        .light {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 30px 10px #70dbff, 0 0 60px 20px rgba(112,219,255,0.8);
+            z-index: 5;
+            animation: glowFlower 2s infinite alternate;
+        }
+
+        .grass {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to top, #041c0e, transparent);
+            z-index: 20;
+        }
+
+        /* Keyframes */
+        @keyframes growStem {
+            0% { transform: scaleY(0); }
+            100% { transform: scaleY(1); }
+        }
+        @keyframes growLeaf {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes bloomFade {
+            0% { transform: scale(0) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        @keyframes glowFlower {
+            0% { box-shadow: 0 0 20px 5px #70dbff, 0 0 40px 10px rgba(112,219,255,0.5); }
+            100% { box-shadow: 0 0 30px 10px #70dbff, 0 0 70px 25px rgba(112,219,255,0.9); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scene-intro" class="greetings">
+        <h1>
+            <span>S</span><span>A</span><span>R</span><span>A</span><span>H</span><span>♥</span>
+        </h1>
+        <div class="description">
+            <span>awkwkwkwkwk Nih Untukmu Sayanggggkuuu ♥</span>
+        </div>
+        <div class="button">
+            <button>
+                <a href="#" onclick="showFlower(event)">Klik dong 🤍</a>
+            </button>
+        </div>
+    </div>
+
+    <div id="scene-flower">
+        <div class="stars"></div>
+
+        <div class="flower-container">
+            <div class="flower flower--1">
+                <div class="stem">
+                    <div class="leaf leaf--left"></div>
+                    <div class="leaf leaf--right"></div>
+                </div>
+                <div class="bloom">
+                    <div class="petal petal--1"></div>
+                    <div class="petal petal--2"></div>
+                    <div class="petal petal--3"></div>
+                    <div class="petal petal--4"></div>
+                    <div class="petal petal--5"></div>
+                    <div class="light"></div>
+                </div>
+            </div>
+
+            <div class="flower flower--2">
+                <div class="stem">
+                    <div class="leaf leaf--left"></div>
+                    <div class="leaf leaf--right"></div>
+                </div>
+                <div class="bloom">
+                    <div class="petal petal--1"></div>
+                    <div class="petal petal--2"></div>
+                    <div class="petal petal--3"></div>
+                    <div class="petal petal--4"></div>
+                    <div class="petal petal--5"></div>
+                    <div class="light"></div>
+                </div>
+            </div>
+
+            <div class="flower flower--3">
+                <div class="stem">
+                    <div class="leaf leaf--left"></div>
+                    <div class="leaf leaf--right"></div>
+                </div>
+                <div class="bloom">
+                    <div class="petal petal--1"></div>
+                    <div class="petal petal--2"></div>
+                    <div class="petal petal--3"></div>
+                    <div class="petal petal--4"></div>
+                    <div class="petal petal--5"></div>
+                    <div class="light"></div>
+                </div>
+            </div>
+
+            <div class="grass"></div>
+        </div>
+        <div class="float-text highlight" style="top: 15%; left: 10%;">you mean everything</div>
+        <div class="float-text" style="top: 25%; left: 40%;">only you</div>
+        <div class="float-text" style="top: 10%; right: 15%;">forever</div>
+        <div class="float-text highlight" style="top: 40%; right: 10%;">stay with me</div>
+        <div class="float-text" style="top: 55%; left: 5%;">my safe place</div>
+        <div class="float-text" style="top: 70%; left: 30%;">always on my mind</div>
+        <div class="float-text highlight" style="top: 80%; right: 20%;">my favorite person</div>
+        <div class="float-text" style="top: 60%; right: 30%;">love u more</div>
+        <div class="float-text" style="top: 35%; left: 20%;">i miss you</div>
+        <div class="float-text" style="top: 85%; left: 10%;">you are enough</div>
+
+        <img src="foto1.jpg" class="float-img" style="top: 20%; left: 25%; width: 120px; height: 120px; animation-delay: 0s;">
+        <img src="foto2.jpg" class="float-img" style="top: 45%; right: 15%; width: 100px; height: 130px; animation-delay: 1s;">
+        <img src="foto3.jpg" class="float-img" style="top: 60%; left: 15%; width: 110px; height: 110px; animation-delay: 2s;">
+        <img src="foto4.jpg" class="float-img" style="top: 15%; right: 30%; width: 90px; height: 90px; animation-delay: 0.5s;">
+        
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="https://c.top4top.io/m_3829ij73b1.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung audio.
+    </audio>
+
+    <script>
+        let audio = document.getElementById('bg-music');
+
+        function showFlower(event) {
+            event.preventDefault(); 
+            
+            const intro = document.getElementById('scene-intro');
+            const flowerScene = document.getElementById('scene-flower');
+            
+            intro.style.opacity = '0';
+            
+            setTimeout(() => {
+                intro.style.display = 'none';
+                flowerScene.style.display = 'block';
+                
+                setTimeout(() => {
+                    flowerScene.style.opacity = '1';
+                    
+                    // Musik otomatis nyala dan tidak bisa dimatikan
+                    audio.play().catch(err => {
+                        console.log("Autoplay dicegah:", err);
+                    });
+                }, 100);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
